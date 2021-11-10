@@ -376,6 +376,11 @@ Nevertheless storage on the Hypervisor should:
 [[_sec_hypervisor_operating_system_configuration]]
 === Hypervisor Operating System Configuration
 
+[[_sec_vhostmd]]
+==== vhostmd
+The hypervisor needs to have the vhostmd package installed and the corresponding vhostmd service enabled and started (see also: https://confluence.suse.com/display/SAP/HANAonKVM+vhostmd ).
+//TODO: Add a proper, external, link
+
 [[_sec_tuned]]
 ==== Generic Host Tuning with tuned
 
@@ -456,6 +461,16 @@ To disable irqbalance run the following command:
 systemctl disable irqbalance.service
 
 systemctl stop irqbalance.service
+----
+
+[[_sec_no_ksm]]
+==== Kernel Samepage Merging (ksm)
+
+Kernel Samepage Merging (KSM, https://www.kernel.org/doc/html/latest/admin-guide/mm/ksm.html ) is of no use, because there is only one single VM, so it should be disabled.
+The following command makes sure that it is tuned off and that any sharing and de-duplication activity that may have happened, in case it was enabled, is reverted:
+
+----
+echo 2 >  /sys/kernel/mm/ksm/run
 ----
 
 [[_sec_customize_the_linux_kernel_boot_options]]
